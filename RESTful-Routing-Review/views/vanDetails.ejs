@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vans Detail Page</title>
+</head>
+<body>
+    <a href="/vans">Back to All Vans</a>
+    
+    <h1>Name: <%= van.name %> (<%= van.type %>)</h1>
+    <h2>Price: <%= van.price %> </h2>
+    <h2>Id:<%= van.id %></h2>
+    <p><%= van.description %></p>
+    <img src="<%= van.imageUrl %>" alt="">
+</body>
+</html>
