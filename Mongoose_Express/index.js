@@ -53,7 +53,6 @@ app.put('/products/:id', async (req,res)=>{
 })
 
 
-
 // show all products
 app.get('/products', async (req,res)=>{
     const products = await Product.find({})
@@ -66,6 +65,16 @@ app.get('/products/:id', async (req, res)=>{
     const product = await Product.findById(id)
     res.render('products/show', {product})
 })
+
+//localhost:3000/products/6446e5ec2f6a92b60214cf6a?_method=DELETE
+
+// deleting a product
+http: app.delete("/products/:id", async (req, res) => {
+    const { id } = req.params;
+    const deleteProduct = await Product.findByIdAndDelete(id)
+    res.redirect('/products')
+
+});
 
 
 // listening 
