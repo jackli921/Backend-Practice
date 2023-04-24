@@ -55,8 +55,17 @@ app.put('/products/:id', async (req,res)=>{
 
 // show all products
 app.get('/products', async (req,res)=>{
-    const products = await Product.find({})
-    res.render('products/index', {products})
+    const { category } = req.query;
+
+    if(category){
+        const products = await Product.find({category})
+        res.render("products/index", {products, category});
+    }
+    else {
+        const products = await Product.find({})
+        res.render('products/index', {products, category: "All"})
+    }
+
 })
 
 // show details of one product 
@@ -66,8 +75,6 @@ app.get('/products/:id', async (req, res)=>{
     res.render('products/show', {product})
 })
 
-//localhost:3000/products/6446e5ec2f6a92b60214cf6a?_method=DELETE
-
 // deleting a product
 http: app.delete("/products/:id", async (req, res) => {
     const { id } = req.params;
@@ -76,9 +83,9 @@ http: app.delete("/products/:id", async (req, res) => {
 
 });
 
-
 // listening 
 app.listen(3000, ()=>{
     console.log("APP IS LISTENING ON PORT 3000")
 })
 
+// sorting by categories
