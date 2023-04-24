@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Product</title>
+    <title>Edit Product</title>
 </head>
-<body>
-    <h1>Add a Product</h1>
 
-    <form action="/products" method="POST">
+<body>
+    <h1>Edit a Product</h1>
+
+    <form action="/products/<%= product._id%>" method="POST">
         <label for="name">Product Name</label>
-        <input type="text" name="name" id="name" placeholder="product name">
+        <input type="text" name="name" id="name" value="<%= product.name %>" placeholder="product name">
         <label for="price">Price (Unit)</label>
-        <input type="text" name="price" id="price" placeholder="product name">
+        <input type="text" name="price" id="price" value="<%=product.price %>" placeholder="product name">
         <label for="category">Select Category</label>
-        <select name="category" id="category">
+        <select name="category" id="category" value="<%= product.category %>">
             <option value="fruit">fruit</option>
             <option value="veggie">veggie</option>
             <option value="dairy">dairy</option>
@@ -23,4 +25,5 @@
         <button>Submit</button>
     </form>
 </body>
+
 </html>

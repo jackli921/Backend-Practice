@@ -2,7 +2,8 @@ const express = require("express")
 const app = express();
 const path = require('path')
 const mongoose = require('mongoose')
-const Product = require('./models/product')
+const Product = require('./models/product');
+const { resolveSoa } = require("dns");
 
 // use mongoose to use mongodb
 mongoose.connect('mongodb://localhost:27017/farmStand')
@@ -16,15 +17,27 @@ mongoose.connect('mongodb://localhost:27017/farmStand')
 
 // set the path for the directory where your application's views are stored
 app.set('views', path.join(__dirname, 'views'))
-
-// set the view engine that will be used to render the views
 app.set('view engine', 'ejs')
+
+app.use (express.urlencoded({extended: true}))
 
 // make a form to submit new product
 app.get('/products/new', (req,res)=>{
     res.render('products/new')
 })
 
+// saving new product to database and redirect to new product details
+app.post('/products', async (req, res)=>{
+    const newProduct = new Product(req.body)
+    await newProduct.save()
+    res.redirect(`/products/${newProduct._id}`)
+})
+
+app.get('/products/:id/edit', async (req,res)=>{
+    const { id } = req.params;
+    const product = await Product.findById(id)
+    res.render('products/edit', {product})
+})
 
 // show all products
 app.get('/products', async (req,res)=>{
