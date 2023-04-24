@@ -1,9 +1,12 @@
 const express = require("express")
 const app = express();
 const path = require('path')
+const methodOverride = require("method-override");
 const mongoose = require('mongoose')
 const Product = require('./models/product');
 const { resolveSoa } = require("dns");
+
+
 
 // use mongoose to use mongodb
 mongoose.connect('mongodb://localhost:27017/farmStand')
@@ -20,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 app.use (express.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
 
 // make a form to submit new product
 app.get('/products/new', (req,res)=>{
@@ -33,10 +37,17 @@ app.post('/products', async (req, res)=>{
     res.redirect(`/products/${newProduct._id}`)
 })
 
+// get the id to display the form so user can edit
 app.get('/products/:id/edit', async (req,res)=>{
     const { id } = req.params;
     const product = await Product.findById(id)
     res.render('products/edit', {product})
+})
+
+app.put('/products/:id', async (req,res)=>{
+    const {id} = req.params
+    const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
+    res.redirect(`/products/${product._id}`)
 })
 
 // show all products
