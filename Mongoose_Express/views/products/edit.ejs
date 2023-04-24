@@ -18,12 +18,17 @@
         <input type="text" name="price" id="price" value="<%=product.price %>" placeholder="price per unit">
         <label for="category">Select Category</label>
         <select name="category" id="category" value="<%= product.category %>">
-            <option value="fruit">fruit</option>
-            <option value="veggie">veggie</option>
-            <option value="dairy">dairy</option>
+            <% categories.forEach(category=>{ %>
+                <option value="<%=category%>" <%=product.category===category? "selected" : "" %>>
+                    
+                    <%=category%>
+                </option>
+                <% }) %>
         </select>
+        
         <button>Submit</button>
     </form>
+    <a href="/products/<% product._id %>">Cancel</a>
     <a href="/products">All Products</a>
 </body>
 

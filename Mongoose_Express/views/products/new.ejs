@@ -16,9 +16,9 @@
         <input type="text" name="price" id="price" placeholder="product name">
         <label for="category">Select Category</label>
         <select name="category" id="category">
-            <option value="fruit">fruit</option>
-            <option value="veggie">veggie</option>
-            <option value="dairy">dairy</option>
+            <% categories.forEach(category=>{ %>
+                <option value="<%=category%>"><%=category%></option>
+                <% }) %>
         </select>
         <button>Submit</button>
     </form>
