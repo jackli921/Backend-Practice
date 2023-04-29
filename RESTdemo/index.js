@@ -11,7 +11,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
 
-const comments = [
+let comments = [
     {
         username:"Cat",
         comment: "Meow meow meow",
@@ -74,6 +74,14 @@ app.patch('/comments/:id', (req, res)=>{
     foundComment.comment = newComment
     res.redirect("/comments")
 })
+
+app.delete('/comments/:id', (req,res)=>{
+    const {id} = req.params
+    comments = comments.filter(item => item.id !== id)
+    res.redirect('/comments')
+
+})
+
 
 app.listen(3000, ()=>{
     console.log("Listening on port 3000")

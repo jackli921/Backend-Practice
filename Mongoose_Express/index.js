@@ -65,7 +65,6 @@ app.get('/products', async (req,res)=>{
         const products = await Product.find({})
         res.render('products/index', {products, category: "All"})
     }
-
 })
 
 // show details of one product 
