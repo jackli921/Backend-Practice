@@ -1,4 +1,4 @@
-const vansData = [
+let vansData = [
   {
     id: "1",
     name: "Modest Explorer",

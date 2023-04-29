@@ -8,11 +8,18 @@
 </head>
 <body>
     <a href="/vans">Back to All Vans</a>
+    <hr>
     
     <h1>Name: <%= van.name %> (<%= van.type %>)</h1>
     <h2>Price: <%= van.price %> </h2>
     <h2>Id:<%= van.id %></h2>
     <p><%= van.description %></p>
+
+
+    <hr>
+    <form method="post" action="/vans/<%= van.id %>?_method=DELETE">
+        <button>Delete</button>
+    </form>
     <img src="<%= van.imageUrl %>" alt="">
 </body>
 </html>

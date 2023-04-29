@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    <h1>Edit Your Van Entries</h1>
+    <a href="/vans">Back to All Vans</a>
+    <form method="post" action="/vans/<%= van.id %>?_method=PATCH" >
+        <label for="name">Van Name:</label>
+        <input type="text" id="name" name="name" placeholder="Name of the van" value="<%= van.name %>">
+        <br>
+        <hr>
+        <label for="type">Van Type:</label>
+        <input type="text" id="type" name="type" placeholder="Luxury" value="<%= van.type %>">
+        <br>
+        <hr>
+        <label for="costPerDay">$/Day:</label>
+        <input type="number" id="cost" name="price" placeholder="enter your price" value="<%= van.price %>">
+        <br>
+        <hr>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" cols="30" rows="10"
+            placeholder="Tell future users about this van and what's nice about it">
+            <%= van.description %>
+        </textarea>
+        <br>
+        <button>Submit</button>
+    </form>
+
+</body>
+</html>

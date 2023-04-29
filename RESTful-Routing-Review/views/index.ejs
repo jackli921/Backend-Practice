@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Vans</title>
+    <title>Your Van Inventory</title>
 </head>
 
 <body>
-    <h1>All Vans</h1>
+    <h1>Your Van Inventory</h1>
         <a href="/vans/new">Create a new rental entry</a>
         <% vansData.forEach(van =>{ %>
             <section>
-                <h2><%= van.name %>  (<%= van.type %>) - $<b><%= van.price %></b> <a href="/vans/<%= van.id %>">Details</a></h2>
+                <h2><%= van.name %>  (<%= van.type %>) - $<b><%= van.price %></b> 
+                    <a href="/vans/<%= van.id %>">Details</a>
+                    <a href="/vans/<%= van.id %>/edit">Edit<a>
+                </h2>
                 <!-- <img src="<%= van.imageUrl %>" alt=""> -->
                 <p><%= van.description %></p>
                 
             </section>
+            <hr>
         <% }) %>
 </body>
 </html>
