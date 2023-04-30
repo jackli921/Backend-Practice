@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const Product = require('./models/product');
 const { resolveSoa } = require("dns");
 const AppError = require("./AppError");
-
+const createHttpError = require('http-errors')
 
 // use mongoose to use mongodb
 mongoose.connect('mongodb://localhost:27017/farmStand2')
@@ -50,13 +50,16 @@ app.get('/products/:id/edit', async (req,res, next)=>{
     try{
         const { id } = req.params;
         const product = await Product.findById(id)        
+        
         res.render('products/edit', {product, categories})
     }
     catch(e){
-         return next(new AppError("Product Not Found", 404));
+         return next (new AppError("Product Not Found", 404))
     }
 
 })
+
+
 
 
 // get the data of the product to be edited and update the product in db
@@ -83,14 +86,21 @@ app.get('/products', async (req,res)=>{
 
 // show details of one product 
 app.get('/products/:id', async (req, res, next)=>{
-
-    try{
-        const {id}= req.params;
-        const product = await Product.findById(id)
-            res.render('products/show', {product})
+    const { id } = req.params;
+    
+    try{    
+        if(!mongoose.isValidObjectId(id)) {
+            throw createHttpError(400, "invalid data ID");
+        }
+        const product = await Product.findById(id);
+        res.render('products/show', {product})
+        // if(!product){
+        //     return next(new AppError("NOT FOUND!!!!", 404));
+        // }
     }
     catch(e){
-        return next(new AppError("NOT FOUND", 404));
+        return next(e)
+        // return next(new AppError("NOT FOUND~~~", 404));
     }
 
 })
@@ -101,6 +111,17 @@ http: app.delete("/products/:id", async (req, res) => {
     const deleteProduct = await Product.findByIdAndDelete(id)
     res.redirect('/products')
 });
+
+const handleValidationErr = err => {
+    console.log(err)
+    return new AppError(`Validation failed ...${err.message}`, 400 )
+}
+
+app.use((err, req, res, next)=>{
+    if(err.name === 'ValidationError') err = handleValidationErr(err)
+
+    next(err)
+})
 
 
 app.use((err, req, res, next)=>{
