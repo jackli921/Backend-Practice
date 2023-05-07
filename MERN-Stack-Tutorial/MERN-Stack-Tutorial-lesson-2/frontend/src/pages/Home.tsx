@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
+import {useWorkoutsContext} from "../hooks/useWorkoutsContext";
 
 // components
-import WorktoutDetails from '../components/WorkoutDetails'
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 
 const Home = () => {
-
-  const [workouts, setWorkouts] = useState([])
+  const {workouts, dispatch} = useWorkoutsContext()
 
   useEffect(()=>{
-    const fetchWorkouts = async () =>{
+    const fetchWorkouts = async () => {
       const res = await fetch("http://localhost:4000/api/workouts");
+      const json = await res.json()
+      if(res.ok){
+        dispatch({type: 'SET_WORKOUTS', payload: json})
+      }
       if(!res.ok){
         throw new Error('Network response was not okay')
       }
-      const json = await res.json()
-      setWorkouts(json);
     }
-
     fetchWorkouts()
   },[])
 
