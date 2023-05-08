@@ -4,7 +4,7 @@ const Navbar = () =>{
     return (
         <header className="container">
             <Link to="/">
-                <h1>Workout Buddy</h1>
+                <h1>Saitama Workout</h1>
             </Link>
         </header>
     )
