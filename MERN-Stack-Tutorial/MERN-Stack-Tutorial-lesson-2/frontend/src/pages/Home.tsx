@@ -6,7 +6,6 @@ import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 
 const Home = () => {
-
   const {workouts ,dispatch} = useWorkoutsContext()
 
   useEffect(()=>{
@@ -16,16 +15,14 @@ const Home = () => {
       const json = await res.json()
       
       if(res.ok){
-    
         dispatch({ type: 'SET_WORKOUTS', payload: json });
       }
       if (!res.ok) {
         throw new Error("Network response was not okay");
       }
     }
-
     fetchWorkouts()
-  },[])
+  },[dispatch])
 
 
   return (
