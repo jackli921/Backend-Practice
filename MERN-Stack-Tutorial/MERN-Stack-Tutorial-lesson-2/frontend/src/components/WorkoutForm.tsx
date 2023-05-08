@@ -7,6 +7,7 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState('')
     const [reps, setReps] = useState('')
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async(e)=>{
         e.preventDefault()
@@ -22,43 +23,52 @@ const WorkoutForm = () => {
         const json = await response.json()
         if(!response.ok){
             setError(json.error)
+            setEmptyFields(json.emptyFields)
+
         }
         if(response.ok){
             setTitle('')
             setLoad('')
             setReps('')
             setError(null)
+            setEmptyFields([])
             console.log('new workout added')
             dispatch({type: "CREATE_WORKOUTS" , payload: json})
         }
     }
 
     return (
-        <form className="create" onSubmit={handleSubmit}>
-            <h3>Add a New Workout</h3>
+      <form className="create" onSubmit={handleSubmit}>
+        <h3>Add a New Workout</h3>
 
-            <label>Exercise Title:</label>
-            <input 
-            type="text"
-            value={title}
-            onChange={(e)=> setTitle(e.target.value)} />
+        <label>Exercise Title:</label>
+        <input
+          type="text"
+          value={title}
+          className={emptyFields.includes("title") ? "error" : ""}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-            <label>Load (in kg): </label>
-            <input 
-            type="number"
-            value={load}
-            onChange={(e)=> setLoad(e.target.value)} />
-            
-            <label>Reps:</label>
-            <input 
-            type="number"
-            value={reps}
-            onChange={(e)=> setReps(e.target.value)} />
+        <label>Load (in kg): </label>
+        <input
+          type="number"
+          value={load}
+          className={emptyFields.includes("load") ? "error" : ""}
+          onChange={(e) => setLoad(e.target.value)}
+        />
 
-            <button>Add Workout</button>
-            {error && <div className="error">{error}</div>  }
-        </form>
-    )
+        <label>Reps:</label>
+        <input
+          type="number"
+          value={reps}
+          className={emptyFields.includes("reps") ? "error" : ""}
+          onChange={(e) => setReps(e.target.value)}
+        />
+
+        <button>Add Workout</button>
+        {error && <div className="error">{error}</div>}
+      </form>
+    );
 }
 
 
